@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         checkPermission();
         /**初始藍牙掃描及掃描開關之相關功能*/
         bluetoothScan();
+        /**取得欲連線之裝置後跳轉頁面*/
+        mAdapter.OnItemClick(itemClick);
 
     }
     /**權限相關認證*/
@@ -91,11 +94,34 @@ public class MainActivity extends AppCompatActivity {
                     /**開啟掃描*/
                     isScanning = true;
                     btScan.setText("停止掃描");
+                    findDevice.clear();
                     mBluetoothAdapter.startLeScan(mLeScanCallback);
                     mAdapter.clearDevice();
             }
         });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        final Button btScan = findViewById(R.id.button_Scan);
+        isScanning = true;
+        btScan.setText("停止掃描");
+        findDevice.clear();
+        mBluetoothAdapter.startLeScan(mLeScanCallback);
+        mAdapter.clearDevice();
+    }
+    /**避免跳轉後掃描程序係續浪費效能，因此離開頁面後即停止掃描*/
+    @Override
+    protected void onStop() {
+        super.onStop();
+        final Button btScan = findViewById(R.id.button_Scan);
+        /**關閉掃描*/
+        isScanning = false;
+        btScan.setText("開始掃描");
+        mBluetoothAdapter.stopLeScan(mLeScanCallback);
+    }
+
     /**顯示掃描到物件*/
     private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
         @Override
@@ -162,4 +188,16 @@ public class MainActivity extends AppCompatActivity {
         String gethex = hex.toString();
         return gethex;
     }
+
+    /**取得欲連線之裝置後跳轉頁面*/
+    private RecyclerViewAdapter.OnItemClick itemClick = new RecyclerViewAdapter.OnItemClick() {
+        @Override
+        public void onItemClick(ScannedData selectedDevice) {
+
+            Intent intent = new Intent(MainActivity.this,DeviceControlActivity.class);
+            intent.putExtra(DeviceControlActivity.INTENT_KEY,selectedDevice);
+            startActivity(intent);
+        }
+    };
+
 }

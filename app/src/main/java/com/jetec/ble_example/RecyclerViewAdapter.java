@@ -14,11 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+
+    private OnItemClick onItemClick;
     private List<ScannedData> arrayList = new ArrayList<>();
     private Activity activity;
 
     public RecyclerViewAdapter(Activity activity) {
         this.activity = activity;
+    }
+    public void OnItemClick(OnItemClick onItemClick){
+        this.onItemClick = onItemClick;
     }
     /**清除搜尋到的裝置列表*/
     public void clearDevice(){
@@ -56,11 +61,17 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
         holder.tvAddress.setText("裝置位址："+arrayList.get(position).getAddress());
         holder.tvInfo.setText("裝置挾帶的資訊：\n"+arrayList.get(position).getDeviceByteInfo());
         holder.tvRssi.setText("訊號強度："+arrayList.get(position).getRssi());
+        holder.itemView.setOnClickListener(v -> {
+            onItemClick.onItemClick(arrayList.get(position));
+        });
     }
 
     @Override
     public int getItemCount() {
         return arrayList.size();
+    }
+    interface OnItemClick{
+        void onItemClick(ScannedData selectedDevice);
     }
 
 
