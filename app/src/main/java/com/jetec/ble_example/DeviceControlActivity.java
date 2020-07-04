@@ -40,11 +40,13 @@ public class DeviceControlActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_control);
+        /**取得所選中的藍芽裝置之相關資料*/
         selectedDevice = (ScannedData) getIntent().getSerializableExtra(INTENT_KEY);
+        /**清除之前儲存過的UUID們*/
         if (SampleGattAttributes.myGatt.size() > 0) {
             SampleGattAttributes.myGatt.clear();
         }
-
+        /**綁定Server:BluetoothLeServer.java*/
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
@@ -56,7 +58,7 @@ public class DeviceControlActivity extends AppCompatActivity {
 
 
     }
-
+    /**顯示現在藍芽連線狀況*/
     private void updateConnectionState(String status) {
         runOnUiThread(new Runnable() {
             @Override
@@ -71,35 +73,6 @@ public class DeviceControlActivity extends AppCompatActivity {
         mDataField.setText("---");
     }
 
-    private final ExpandableListView.OnChildClickListener servicesListClickListner =
-            new ExpandableListView.OnChildClickListener() {
-                @Override
-                public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
-                                            int childPosition, long id) {
-                    if (mGattCharacteristics != null) {
-                        final BluetoothGattCharacteristic characteristic =
-                                mGattCharacteristics.get(groupPosition).get(childPosition);
-                        final int charaProp = characteristic.getProperties();
-                        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_READ) > 0) {
-                            // If there is an active notification on a characteristic, clear
-                            // it first so it doesn't update the data field on the user interface.
-                            if (mNotifyCharacteristic != null) {
-                                mBluetoothLeService.setCharacteristicNotification(
-                                        mNotifyCharacteristic, false);
-                                mNotifyCharacteristic = null;
-                            }
-                            mBluetoothLeService.readCharacteristic(characteristic);
-                        }
-                        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
-                            mNotifyCharacteristic = characteristic;
-                            mBluetoothLeService.setCharacteristicNotification(
-                                    characteristic, true);
-                        }
-                        return true;
-                    }
-                    return false;
-                }
-            };
 
     @Override
     protected void onResume() {
@@ -110,6 +83,7 @@ public class DeviceControlActivity extends AppCompatActivity {
         }
     }
 
+    /**綁定IntentFilter，使手機端能監聽藍GATT的狀態*/
     private static IntentFilter makeGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);//連接一個GATT服務
@@ -119,6 +93,7 @@ public class DeviceControlActivity extends AppCompatActivity {
         return intentFilter;
     }
 
+    /**此處為控制藍芽連線的部分*/
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
         @Override
@@ -147,8 +122,7 @@ public class DeviceControlActivity extends AppCompatActivity {
         unregisterReceiver(mGattUpdateReceiver);
     }
 
-
-
+    /**此處為顯示可用的服務延展式列表UI*/
     private void displayGattServices(List<BluetoothGattService> gattServices) {
         final String LIST_NAME = "NAME";
         final String LIST_UUID = "UUID";
@@ -204,30 +178,60 @@ public class DeviceControlActivity extends AppCompatActivity {
         );
         mGattServicesList.setAdapter(gattServiceAdapter);
     }
+    /**延展式列表UI的點擊事件處理*/
+    private final ExpandableListView.OnChildClickListener servicesListClickListner =
+            new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
+                                            int childPosition, long id) {
+                    if (mGattCharacteristics != null) {
+                        final BluetoothGattCharacteristic characteristic =
+                                mGattCharacteristics.get(groupPosition).get(childPosition);
+                        final int charaProp = characteristic.getProperties();
+                        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_READ) > 0) {
+                            // If there is an active notification on a characteristic, clear
+                            // it first so it doesn't update the data field on the user interface.
+                            if (mNotifyCharacteristic != null) {
+                                mBluetoothLeService.setCharacteristicNotification(
+                                        mNotifyCharacteristic, false);
+                                mNotifyCharacteristic = null;
+                            }
+                            mBluetoothLeService.readCharacteristic(characteristic);
+                        }
+                        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
+                            mNotifyCharacteristic = characteristic;
+                            mBluetoothLeService.setCharacteristicNotification(
+                                    characteristic, true);
+                        }
+                        return true;
+                    }
+                    return false;
+                }
+            };
 
     private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
 
-            //如果有連接
+            /**如果有連接*/
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
                 Log.d(TAG, "藍芽已連線");
                 updateConnectionState("已連線");
             }
-            //如果沒有連接
+            /**如果沒有連接*/
             else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
                 Log.d(TAG, "藍芽已斷開");
                 updateConnectionState("未連線");
                 clearUI();
             }
-            //如果找到GATT服務
+            /**如果找到GATT服務*/
             else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 Log.d(TAG, "已搜尋到GATT服務");
                 displayGattServices(mBluetoothLeService.getSupportedGattServices());
 
             }
-            //接收來自藍芽傳回的資料
+            /**接收來自藍芽傳回的資料*/
             else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 Log.d(TAG, "接收到藍芽資訊");
                 byte[] getByteData = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
@@ -241,6 +245,7 @@ public class DeviceControlActivity extends AppCompatActivity {
             }
         }
     };//onReceive
+    /**此處為接收藍芽回傳的內容*/
     @SuppressLint("SetTextI18n")
     private void displayData(String stringData, String byteArrayData){
         if (stringData != null) {
