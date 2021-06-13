@@ -1,4 +1,4 @@
-package com.jetec.ble_example;
+package com.jetec.ble_example.Controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,17 +11,19 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.io.Serializable;
+import com.jetec.ble_example.Module.Adapter.RecyclerViewAdapter;
+import com.jetec.ble_example.Module.Enitiy.ScannedData;
+import com.jetec.ble_example.R;
+
+
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
+import java.util.HashSet;
 import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
@@ -194,8 +196,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemClick(ScannedData selectedDevice) {
 
-            Intent intent = new Intent(MainActivity.this,DeviceControlActivity.class);
-            intent.putExtra(DeviceControlActivity.INTENT_KEY,selectedDevice);
+            Intent intent = new Intent(MainActivity.this, DeviceInfoActivity.class);
+            intent.putExtra(DeviceInfoActivity.INTENT_KEY,selectedDevice);
             startActivity(intent);
         }
     };

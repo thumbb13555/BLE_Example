@@ -1,4 +1,4 @@
-package com.jetec.ble_example;
+package com.jetec.ble_example.Module.Adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,10 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jetec.ble_example.Module.Enitiy.ScannedData;
+import com.jetec.ble_example.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
-class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private OnItemClick onItemClick;
     private List<ScannedData> arrayList = new ArrayList<>();
@@ -70,7 +73,7 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
     public int getItemCount() {
         return arrayList.size();
     }
-    interface OnItemClick{
+    public interface OnItemClick{
         void onItemClick(ScannedData selectedDevice);
     }
 

@@ -1,11 +1,11 @@
-package com.jetec.ble_example;
+package com.jetec.ble_example.Module.Enitiy;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 
-class ScannedData implements Serializable {
+public class ScannedData implements Serializable {
     /**這邊是拿取掃描到的所有資訊*/
     private String deviceName;
     private String rssi;

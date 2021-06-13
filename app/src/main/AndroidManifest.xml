@@ -18,8 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DeviceControlActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".Controller.DeviceInfoActivity"></activity>
+        <activity android:name=".Controller.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +28,7 @@
         </activity>
 
         <service
-            android:name=".BluetoothLeService"
+            android:name=".Module.Service.BluetoothLeService"
             android:enabled="true" />
     </application>
 
