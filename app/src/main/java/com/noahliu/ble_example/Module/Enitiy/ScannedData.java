@@ -1,4 +1,4 @@
-package com.jetec.ble_example.Module.Enitiy;
+package com.noahliu.ble_example.Module.Enitiy;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

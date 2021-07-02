@@ -1,4 +1,4 @@
-package com.jetec.ble_example.Module.Adapter;
+package com.noahliu.ble_example.Module.Adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jetec.ble_example.Module.Enitiy.ScannedData;
-import com.jetec.ble_example.R;
+import com.noahliu.ble_example.Module.Enitiy.ScannedData;
+import com.noahliu.ble_example.R;
 
 import java.util.ArrayList;
 import java.util.List;

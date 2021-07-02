@@ -1,4 +1,4 @@
-package com.jetec.ble_example.Controller;
+package com.noahliu.ble_example.Controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,14 +16,13 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.jetec.ble_example.Module.Adapter.RecyclerViewAdapter;
-import com.jetec.ble_example.Module.Enitiy.ScannedData;
-import com.jetec.ble_example.R;
+import com.noahliu.ble_example.Module.Adapter.RecyclerViewAdapter;
+import com.noahliu.ble_example.Module.Enitiy.ScannedData;
+import com.noahliu.ble_example.R;
 
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
-import java.util.HashSet;
 import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {

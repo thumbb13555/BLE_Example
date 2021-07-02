@@ -1,10 +1,8 @@
-package com.jetec.ble_example.Module.Enitiy;
+package com.noahliu.ble_example.Module.Enitiy;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
-
-import com.jetec.ble_example.Module.Service.BluetoothLeService;
 
 import java.util.ArrayList;
 import java.util.List;

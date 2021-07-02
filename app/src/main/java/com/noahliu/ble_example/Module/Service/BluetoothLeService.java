@@ -1,4 +1,4 @@
-package com.jetec.ble_example.Module.Service;
+package com.noahliu.ble_example.Module.Service;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;

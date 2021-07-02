@@ -1,4 +1,4 @@
-package com.jetec.ble_example.Controller;
+package com.noahliu.ble_example.Controller;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
@@ -17,11 +17,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.jetec.ble_example.Module.Adapter.ExpandableListAdapter;
-import com.jetec.ble_example.Module.Enitiy.ScannedData;
-import com.jetec.ble_example.Module.Enitiy.ServiceInfo;
-import com.jetec.ble_example.Module.Service.BluetoothLeService;
-import com.jetec.ble_example.R;
+import com.noahliu.ble_example.Module.Adapter.ExpandableListAdapter;
+import com.noahliu.ble_example.Module.Enitiy.ScannedData;
+import com.noahliu.ble_example.Module.Enitiy.ServiceInfo;
+import com.noahliu.ble_example.Module.Service.BluetoothLeService;
+import com.noahliu.ble_example.R;
 import java.util.List;
 
 public class DeviceInfoActivity extends AppCompatActivity implements ExpandableListAdapter.OnChildClick {

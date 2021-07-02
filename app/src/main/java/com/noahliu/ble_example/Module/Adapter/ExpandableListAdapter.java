@@ -1,4 +1,4 @@
-package com.jetec.ble_example.Module.Adapter;
+package com.noahliu.ble_example.Module.Adapter;
 
 import android.bluetooth.BluetoothGattService;
 import android.view.LayoutInflater;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jetec.ble_example.Module.Enitiy.ServiceInfo;
-import com.jetec.ble_example.R;
+import com.noahliu.ble_example.Module.Enitiy.ServiceInfo;
+import com.noahliu.ble_example.R;
 
 import java.util.ArrayList;
 import java.util.List;

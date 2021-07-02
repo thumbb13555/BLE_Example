@@ -1,4 +1,4 @@
-package com.jetec.ble_example;
+package com.noahliu.ble_example;
 
 import org.junit.Test;
 
